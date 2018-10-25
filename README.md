@@ -1,7 +1,7 @@
 # d1dialog
 
 Replacement for standard Javascript dialogs: ``alert``, ``confirm``, ``prompt``.  
-[Demo & Docs](http://vadimkor.ru/projects/dialog/)
+[Demo & Docs](http://vadimkor.ru/projects/d1#dialog)
 
 ## Install
 
