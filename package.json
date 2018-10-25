@@ -1,0 +1,24 @@
+{
+  "name": "d1dialog",
+  "version": "1.0.5",
+  "description": "Replacement of standard Javascript dialogs",
+  "main": "d1dialog.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vvvkor/d1dialog"
+  },
+  "keywords": [
+    "dialog",
+    "alert",
+    "confirm",
+    "prompt"
+  ],
+  "author": "Vadim Korolev <vadimkor@yandex.ru> (https://github.com/vvvkor)",
+  "license": "MIT",
+  "dependencies": {
+    "d1css": "^1.1"
+  }
+}
