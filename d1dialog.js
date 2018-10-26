@@ -5,31 +5,34 @@ var main = new(function() {
 
   "use strict";
   
-  this.qd = '.dialog';
-  this.qa = '.alert';
-  this.confirmArg = 'confirm';
-  this.idPrefix = 'dlg';
-  this.dlgClass = 'hide dlg c';
-  this.hashOk = '#ok';
-  this.hashCancel = '#cancel';
-  this.str = {
-    ok: 'OK',
-    cancel: 'Cancel',
-    close: '&times;'
+  this.opt = {
+    qsDialog: '.dialog',
+    qsAlert: '.alert',
+    confirmArg: 'confirm',
+    idPrefix: 'dlg',
+    dlgClass: 'hide dlg c',
+    hashOk: '#ok',
+    hashCancel: '#cancel',
+    strOk: 'OK',
+    strCancel: 'Cancel',
+    strClose: '&times;'
   };
 
   this.win = null;
   this.seq = 0;
 
   this.init = function(opt) {
+    var i;
+    for(i in opt) this.opt[i] = opt[i];
+    
     this.win = this.ins('div', '', {
-      id: this.idPrefix + '0',
-      className: this.dlgClass
+      id: this.opt.idPrefix + '0',
+      className: this.opt.dlgClass
     }, document.querySelector('body'));
-    var t = document.querySelectorAll(this.qd);
-    for (var i = 0; i < t.length; i++) t[i].addEventListener('click', this.dialog.bind(this, t[i]), false);
-    var t = document.querySelectorAll(this.qa);
-    for (var i = 0; i < t.length; i++) t[i].addEventListener('click', this.alert.bind(this, t[i]), false);
+    var t = document.querySelectorAll(this.opt.qsDialog);
+    for (i = 0; i < t.length; i++) t[i].addEventListener('click', this.dialog.bind(this, t[i]), false);
+    var t = document.querySelectorAll(this.opt.qsAlert);
+    for (i = 0; i < t.length; i++) t[i].addEventListener('click', this.alert.bind(this, t[i]), false);
   }
 
   this.dialog = function(n, e) {
@@ -67,7 +70,7 @@ var main = new(function() {
         if (fnd) h = h.replace(re, '$1' + v);
         else h = this.addArg(h, p, v);
       }
-      if (this.confirmArg && h.substr(0,1) != '#') h = this.addArg(h, this.confirmArg, 1);
+      if (this.opt.confirmArg && h.substr(0,1) != '#') h = this.addArg(h, this.opt.confirmArg, 1);
       if (n.tagName == 'A') n.href = h;
     }
   }
@@ -83,8 +86,8 @@ var main = new(function() {
   this.showDialog = function(n, t, ask, enter, def) {
     while (this.win.firstChild) this.win.removeChild(this.win.firstChild);
     this.seq++;
-    this.win.id = this.idPrefix + this.seq;
-    this.ins('a', this.str.close, {href:this.hashCancel, className:'close pad'}, this.win);
+    this.win.id = this.opt.idPrefix + this.seq;
+    this.ins('a', this.opt.strClose, {href:this.opt.hashCancel, className:'close pad'}, this.win);
     this.ins('p', t, {className: enter ? 'l' : ''}, this.win);
     var inp = null;
     if(enter) {
@@ -93,10 +96,10 @@ var main = new(function() {
     }
     var p3 = this.ins('p', '', {}, this.win);
     var warn = n.className.match(/-[we]\b/);
-    var ok = this.ins('a', n.getAttribute('data-ok') || this.str.ok, {href: this.hashOk, className: 'btn pad ' + (warn ? 'bg-e' : 'bg-y')}, p3);
+    var ok = this.ins('a', n.getAttribute('data-ok') || this.opt.strOk, {href: this.opt.hashOk, className: 'btn pad ' + (warn ? 'bg-e' : 'bg-y')}, p3);
     if (ask) {
       this.ins('', ' ', {}, p3);
-      this.ins('a', n.getAttribute('data-cancel') || this.str.cancel, {href: this.hashCancel, className: 'btn pad bg-n'}, p3);
+      this.ins('a', n.getAttribute('data-cancel') || this.opt.strCancel, {href: this.opt.hashCancel, className: 'btn pad bg-n'}, p3);
     }
     ok.addEventListener('click', this.dialogConfirm.bind(this, n, inp), false);
     location.hash = '#' + this.win.id;
@@ -109,7 +112,7 @@ var main = new(function() {
     n.click();
     //var evt = new MouseEvent('click');
     //n.dispatchEvent(evt);
-    //location.hash = this.hashOk;
+    //location.hash = this.opt.hashOk;
   }
   
   this.isDialogShown = function() {
