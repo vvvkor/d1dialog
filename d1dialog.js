@@ -49,7 +49,7 @@ var main = new(function() {
     var p = n.getAttribute('data-prompt') || '';
     var t = n.getAttribute('data-caption') || p || n.title || '!';
     var def = '';
-	var fnd = false;
+    var fnd = false;
     if (p) {
       var re = new RegExp('([?&]' + p + '=)([^&]*)');
       var m = h.match(re);
