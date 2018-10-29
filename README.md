@@ -11,6 +11,11 @@ npm install d1dialog
 
 ## Usage
 
+On page load call:
+```
+d1dialog.init(options);
+```
+
 In your markup:
 * Add ``alert`` class to a link for simple alert with one button.
 * Add ``dialog`` class to a link or form button for dialog with two buttons.
@@ -38,12 +43,6 @@ Simple button with confirmation look like
 Simple link with value prompt may look like
 ```
 <a href="?action=default" class="dialog" data-prompt="action" data-caption="Action:">Action prompt</a>
-```
-
-
-On page load call:
-```
-d1dialog.init(options);
 ```
 
 ## Options
