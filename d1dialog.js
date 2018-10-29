@@ -116,7 +116,8 @@ var main = new(function() {
   }
   
   this.isDialogShown = function() {
-    return document.querySelector('#' + this.win.id + ':target');
+    //return document.querySelector('#' + this.win.id + ':target');
+    return (location.hash == '#' + this.win.id);
   }
 
   //after: 0 = appendChild, 1 = siblingAfter
