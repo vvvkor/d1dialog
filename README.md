@@ -25,22 +25,24 @@ In your markup:
 * Add ``data-src`` attribute to specify selector of the input from which to take value for ``data-prompt``.  
 If that value is not empty then prompt is not shown.
 
-Simple alert link may look like
+## Examples
+
+Simple alert link
 ```
 <a href="#ok" class="alert" title="Hi!">Show alert</a>
 ```
 
-Simple link with confirmation look like
+Simple link with confirmation
 ```
 <a href="?action" class="dialog" title="Continue?">Confirm action</a>
 ```
 
-Simple button with confirmation look like
+Simple button with confirmation
 ```
 <input type="submit" value="Submit" class="dialog" title="Confirm?">
 ```
 
-Simple link with value prompt may look like
+Simple link with value prompt
 ```
 <a href="?action=default" class="dialog" data-prompt="action" data-caption="Action:">Action prompt</a>
 ```
