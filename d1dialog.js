@@ -25,7 +25,7 @@ var main = new(function() {
     var i;
     for(i in opt) this.opt[i] = opt[i];
     
-    this.win = this.ins('div', '', {
+    this.win = d1.ins('div', '', {
       id: this.opt.idPrefix + '0',
       className: this.opt.dlgClass
     }, document.querySelector('body'));
@@ -65,12 +65,15 @@ var main = new(function() {
       e.preventDefault();
     }
     else {
+      var u = {};
       if (p) {
         v = encodeURIComponent(v || n.vValue || '');
         if (fnd) h = h.replace(re, '$1' + v);
-        else h = this.addArg(h, p, v);
+        //else h = d1.add(h, {p: v});
+        else u[p] = v;
       }
-      if (this.opt.confirmArg && h.substr(0,1) != '#') h = this.addArg(h, this.opt.confirmArg, 1);
+      if (this.opt.confirmArg && h.substr(0,1) != '#') u[this.opt.confirmArg] = 1; //h = d1.arg(h, {this.opt.confirmArg: 1});
+      h = d1.arg(h, u);
       if (n.tagName == 'A') n.href = h;
     }
   }
@@ -87,19 +90,19 @@ var main = new(function() {
     while (this.win.firstChild) this.win.removeChild(this.win.firstChild);
     this.seq++;
     this.win.id = this.opt.idPrefix + this.seq;
-    this.ins('a', this.opt.strClose, {href:this.opt.hashCancel, className:'close pad'}, this.win);
-    this.ins('p', t, {className: enter ? 'l' : ''}, this.win);
+    d1.ins('a', this.opt.strClose, {href:this.opt.hashCancel, className:'close pad'}, this.win);
+    d1.ins('p', t, {className: enter ? 'l' : ''}, this.win);
     var inp = null;
     if(enter) {
-      var p2 = this.ins('p', '', {className: 'l'}, this.win);
-      var inp = this.ins('input', '', {type: 'text', value: def}, p2);
+      var p2 = d1.ins('p', '', {className: 'l'}, this.win);
+      var inp = d1.ins('input', '', {type: 'text', value: def}, p2);
     }
-    var p3 = this.ins('p', '', {}, this.win);
+    var p3 = d1.ins('p', '', {}, this.win);
     var warn = n.className.match(/-[we]\b/);
-    var ok = this.ins('a', n.getAttribute('data-ok') || this.opt.strOk, {href: this.opt.hashOk, className: 'btn pad ' + (warn ? 'bg-e' : 'bg-y')}, p3);
+    var ok = d1.ins('a', n.getAttribute('data-ok') || this.opt.strOk, {href: this.opt.hashOk, className: 'btn pad ' + (warn ? 'bg-e' : 'bg-y')}, p3);
     if (ask) {
-      this.ins('', ' ', {}, p3);
-      this.ins('a', n.getAttribute('data-cancel') || this.opt.strCancel, {href: this.opt.hashCancel, className: 'btn pad bg-n'}, p3);
+      d1.ins('', ' ', {}, p3);
+      d1.ins('a', n.getAttribute('data-cancel') || this.opt.strCancel, {href: this.opt.hashCancel, className: 'btn pad bg-n'}, p3);
     }
     ok.addEventListener('click', this.dialogConfirm.bind(this, n, inp), false);
     location.hash = '#' + this.win.id;
@@ -119,22 +122,6 @@ var main = new(function() {
     //return document.querySelector('#' + this.win.id + ':target');
     return (location.hash == '#' + this.win.id);
   }
-
-  //after: 0 = appendChild, 1 = siblingAfter
-  this.ins = function(tag, t, attrs, n, after) {
-    var c = document.createElement(tag || 'span');
-    if (t) c.innerHTML = t; //c.appendChild(document.createTextNode(t||''));
-    if (attrs) {
-      for (var i in attrs) c[i] = attrs[i];
-    }
-    return n ? (after ? n.parentNode.insertBefore(c, n.nextSibling) : n.appendChild(c)) : c;
-  }
-
-  this.addArg = function(h, p, v){
-    return h + (h.indexOf('?') == -1 ? '?' : '&') + p + '=' + v;
-  }
-  
-  //document.addEventListener('DOMContentLoaded', this.init.bind(this), false);
 
 })();
 
