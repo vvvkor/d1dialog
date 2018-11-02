@@ -50,45 +50,40 @@ Simple link with value prompt
 
 ## Options
 
-### qsDialog
-
-Query selector of links with dialog.  
-Default: ``".dialog"``
-
-### qsAlert
-
-Query selector of links with alert.  
-Default: ``".alert"``
-
-### confirmArg
+### argConfirm
 
 Argument appended to URL when user confirms action.  
 Default: ``"confirm"``
 
-### idPrefix
-
-Prefix of the ``id`` of dialog window element.  
-Default: ``"dlg"``
-
-### dlgClass
+### cDialog
 
 CSS class of dialog window element.  
 Default: ``"hide dlg c"``
-
-### hashOk
-
-Hash of "ok" link.  
-Default: ``"#ok"``
 
 ### hashCancel
 
 Hash of "close" and "cancel" links.  
 Default: ``"#cancel"``
 
-### strOk
+### hashOk
 
-Label on "ok" button.  
-Default: ``"OK"``
+Hash of "ok" link.  
+Default: ``"#ok"``
+
+### idPrefix
+
+Prefix of the ``id`` of dialog window element.  
+Default: ``"dlg"``
+
+### qsAlert
+
+Query selector of links with alert.  
+Default: ``".alert"``
+
+### qsDialog
+
+Query selector of links with dialog.  
+Default: ``".dialog"``
 
 ### strCancel
 
@@ -99,6 +94,11 @@ Default: ``"Cancel"``
 
 Label on "close" button.  
 Default: ``"&times;"``
+
+### strOk
+
+Label on "ok" button.  
+Default: ``"OK"``
 
 ## Browser Support
 

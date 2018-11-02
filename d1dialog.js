@@ -6,16 +6,16 @@ var main = new(function() {
   "use strict";
   
   this.opt = {
-    qsDialog: '.dialog',
-    qsAlert: '.alert',
-    confirmArg: 'confirm',
-    idPrefix: 'dlg',
-    dlgClass: 'hide dlg c',
-    hashOk: '#ok',
+    argConfirm: 'confirm',
+    cDialog: 'hide dlg c',
     hashCancel: '#cancel',
-    strOk: 'OK',
+    hashOk: '#ok',
+    idPrefix: 'dlg',
+    qsAlert: '.alert',
+    qsDialog: '.dialog',
     strCancel: 'Cancel',
-    strClose: '&times;'
+    strClose: '&times;',
+    strOk: 'OK'
   };
 
   this.win = null;
@@ -27,7 +27,7 @@ var main = new(function() {
     
     this.win = d1.ins('div', '', {
       id: this.opt.idPrefix + '0',
-      className: this.opt.dlgClass
+      className: this.opt.cDialog
     }, document.querySelector('body'));
     var t = document.querySelectorAll(this.opt.qsDialog);
     for (i = 0; i < t.length; i++) t[i].addEventListener('click', this.dialog.bind(this, t[i]), false);
@@ -72,7 +72,7 @@ var main = new(function() {
         //else h = d1.add(h, {p: v});
         else u[p] = v;
       }
-      if (this.opt.confirmArg && h.substr(0,1) != '#') u[this.opt.confirmArg] = 1; //h = d1.arg(h, {this.opt.confirmArg: 1});
+      if (this.opt.argConfirm && h.substr(0,1) != '#') u[this.opt.argConfirm] = 1; //h = d1.arg(h, {this.opt.argConfirm: 1});
       h = d1.arg(h, u);
       if (n.tagName == 'A') n.href = h;
     }
