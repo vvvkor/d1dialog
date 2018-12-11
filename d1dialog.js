@@ -1,3 +1,5 @@
+//uses d1
+
 //a.alert([title]|[data-caption])
 //a.dialog[href]([title]|[data-caption])[data-prompt][data-src][data-ok][data-cancel]
 (function(){
@@ -6,16 +8,11 @@ var main = new(function() {
   "use strict";
   
   this.opt = {
-    argConfirm: 'confirm',
-    cDialog: 'hide dlg c',
+    argConfirm: '_confirm',
+    ccDialog: 'dlg pad c',
     hashCancel: '#cancel',
     hashOk: '#ok',
-    idPrefix: 'dlg',
-    qsAlert: '.alert',
-    qsDialog: '.dialog',
-    strCancel: 'Cancel',
-    strClose: '&times;',
-    strOk: 'OK'
+    idPrefix: 'dlg'
   };
 
   this.win = null;
@@ -27,15 +24,12 @@ var main = new(function() {
     
     this.win = d1.ins('div', '', {
       id: this.opt.idPrefix + '0',
-      className: this.opt.cDialog
+      className: this.opt.ccDialog + ' ' + d1.opt.cHide
     }, document.querySelector('body'));
-    var t = document.querySelectorAll(this.opt.qsDialog);
-    for (i = 0; i < t.length; i++) t[i].addEventListener('click', this.dialog.bind(this, t[i]), false);
-    var t = document.querySelectorAll(this.opt.qsAlert);
-    for (i = 0; i < t.length; i++) t[i].addEventListener('click', this.alert.bind(this, t[i]), false);
   }
 
   this.dialog = function(n, e) {
+    if(n.classList.contains(d1.opt.cAlert)) return this.alert(n, e);
     e.stopPropagation();
     if (n.form && !n.form.checkValidity()) return;
 
@@ -47,31 +41,17 @@ var main = new(function() {
       if (v) v = v.value;
     }
     var p = n.getAttribute('data-prompt') || '';
-    var t = n.getAttribute('data-caption') || p || n.title || '!';
-    var def = '';
-    var fnd = false;
-    if (p) {
-      var re = new RegExp('([?&]' + p + '=)([^&]*)');
-      var m = h.match(re);
-      if (m) {
-        def = decodeURIComponent(m[2]);
-        fnd = true;
-      }
-    }
+    var t = n.getAttribute('data-caption') || n.title || p || '!';
+    var def = p ? d1.get(h, p) : '';
     //dialog
     var modal = !this.isDialogShown() && (!p || v === null || v === '');
     if (modal) {
-      this.showDialog(n, t, 1, p, def);
+      this.showDialog(t, 1, p, def, n);
       e.preventDefault();
     }
     else {
       var u = {};
-      if (p) {
-        v = encodeURIComponent(v || n.vValue || '');
-        if (fnd) h = h.replace(re, '$1' + v);
-        //else h = d1.add(h, {p: v});
-        else u[p] = v;
-      }
+      if (p) u[p] = v || n.vValue || '';
       if (this.opt.argConfirm && h.substr(0,1) != '#') u[this.opt.argConfirm] = 1; //h = d1.arg(h, {this.opt.argConfirm: 1});
       h = d1.arg(h, u);
       if (n.tagName == 'A') n.href = h;
@@ -80,48 +60,62 @@ var main = new(function() {
   
   this.alert = function(n, e) {
     if (!this.isDialogShown()) {
-      this.showDialog(n, n.getAttribute('data-caption') || n.title || '!');
+      this.showDialog(n.getAttribute('data-caption') || n.title || '!', 0, 0, '', n);
       e.preventDefault();
       e.stopPropagation();
     }
   }
 
-  this.showDialog = function(n, t, ask, enter, def) {
+  this.showDialog = function(t, ask, enter, def, n) {
     while (this.win.firstChild) this.win.removeChild(this.win.firstChild);
     this.seq++;
+    if(location.hash == '#' + this.opt.idPrefix + this.seq) this.seq++;
     this.win.id = this.opt.idPrefix + this.seq;
-    d1.ins('a', this.opt.strClose, {href:this.opt.hashCancel, className:'close pad'}, this.win);
-    d1.ins('p', t, {className: enter ? 'l' : ''}, this.win);
+    var x = d1.ins('a', d1.i('close'), {href:this.opt.hashCancel, className:d1.opt.cClose+' pad'}, this.win);
+    var tag = t.indexOf('>')==-1 ? 'p' : 'div';
+    d1.ins(tag, t, {className: enter ? 'l' : ''}, this.win);
     var inp = null;
     if(enter) {
       var p2 = d1.ins('p', '', {className: 'l'}, this.win);
       var inp = d1.ins('input', '', {type: 'text', value: def}, p2);
     }
     var p3 = d1.ins('p', '', {}, this.win);
-    var warn = n.className.match(/-[we]\b/);
-    var ok = d1.ins('a', n.getAttribute('data-ok') || this.opt.strOk, {href: this.opt.hashOk, className: 'btn pad ' + (warn ? 'bg-e' : 'bg-y')}, p3);
+    var warn = (t.substr(0,1)==' ') ? 1 : (n ? (n.className.match(/-[we]\b/) || d1.q('.bg-e,.bg-w,.text-e,.text-w',0,n)) : '');
+    var ok = d1.ins('a', (n ? n.getAttribute('data-ok') : '') || d1.s('ok'), {href: this.opt.hashOk, className: 'btn pad ' + (warn ? 'bg-e' : 'bg-y')}, p3);
     if (ask) {
       d1.ins('', ' ', {}, p3);
-      d1.ins('a', n.getAttribute('data-cancel') || this.opt.strCancel, {href: this.opt.hashCancel, className: 'btn pad bg-n'}, p3);
+      d1.ins('a', d1.s('cancel'), {href: this.opt.hashCancel, className: 'btn pad bg-n'}, p3);
     }
-    ok.addEventListener('click', this.dialogConfirm.bind(this, n, inp), false);
+    if(inp) inp.addEventListener('keypress', this.dialogConfirm.bind(this, n, inp, ask), false);
+    ok.addEventListener('click', this.dialogConfirm.bind(this, n, inp, ask), false);
     location.hash = '#' + this.win.id;
-    (inp ? inp : ok).focus();
+    if(inp) inp.select();
+    else if(this.win.scrollHeight <= this.win.clientHeight) ok.focus();
   }
   
-  this.dialogConfirm = function(n, inp, e) {
-    e.preventDefault();
-    if (inp) n.vValue = inp.value;
-    n.click();
-    //var evt = new MouseEvent('click');
-    //n.dispatchEvent(evt);
-    //location.hash = this.opt.hashOk;
+  this.dialogConfirm = function(n, inp, ask, e) {
+    if(e.type == 'click' || e.keyCode == 13){
+      e.preventDefault();
+      e.stopPropagation();
+      if (inp && n) n.vValue = inp.value;
+      if(typeof ask === 'function'){
+        d1.esc();
+        ask(inp ? inp.value : null);
+      }
+      else n ? n.click() : d1.esc();
+      //var evt = new MouseEvent('click');
+      //n.dispatchEvent(evt);
+      //location.hash = this.opt.hashOk;
+    }
   }
   
   this.isDialogShown = function() {
     //return document.querySelector('#' + this.win.id + ':target');
     return (location.hash == '#' + this.win.id);
   }
+  
+  d1.dialog = this.dialog.bind(this);//override
+  d1.showDialog = this.showDialog.bind(this);//override
 
 })();
 

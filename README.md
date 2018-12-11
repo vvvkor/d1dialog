@@ -55,10 +55,10 @@ Simple link with value prompt
 Argument appended to URL when user confirms action.  
 Default: ``"confirm"``
 
-### cDialog
+### ccDialog
 
-CSS class of dialog window element.  
-Default: ``"hide dlg c"``
+CSS class (classes) of dialog window element.  
+Default: ``"dlg pad c"``
 
 ### hashCancel
 
@@ -74,31 +74,6 @@ Default: ``"#ok"``
 
 Prefix of the ``id`` of dialog window element.  
 Default: ``"dlg"``
-
-### qsAlert
-
-Query selector of links with alert.  
-Default: ``".alert"``
-
-### qsDialog
-
-Query selector of links with dialog.  
-Default: ``".dialog"``
-
-### strCancel
-
-Label on "cancel" button.  
-Default: ``"Cancel"``
-
-### strClose
-
-Label on "close" button.  
-Default: ``"&times;"``
-
-### strOk
-
-Label on "ok" button.  
-Default: ``"OK"``
 
 ## Browser Support
 
