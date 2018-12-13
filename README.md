@@ -1,7 +1,7 @@
 # d1dialog
 
 Add-on for [d1](https://github.com/vvvkor/d1).  
-Replacement for standard Javascript dialogs: ``alert``, ``confirm``, ``prompt``.  
+Replacement of standard Javascript dialogs: ``alert``, ``confirm``, ``prompt``.  
 [Demo & Docs](http://vadimkor.ru/projects/d1#dialog)
 
 ## Install

@@ -1,4 +1,5 @@
-//uses d1
+/*! d1dialog https://github.com/vvvkor/d1dialog */
+/* Replacement of standard Javascript dialogs: alert, confirm, prompt */
 
 //a.alert([title]|[data-caption])
 //a.dialog[href]([title]|[data-caption])[data-prompt][data-src][data-ok][data-cancel]
