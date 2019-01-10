@@ -28,10 +28,13 @@ var main = new(function() {
       id: this.opt.idPrefix + '0',
       className: this.opt.ccDialog + ' ' + d1.opt.cHide
     }, document.querySelector('body'));
-  }
+    
+    //override
+    d1.dialog = this.dialog.bind(this);
+    d1.showDialog = this.showDialog.bind(this);
+}
 
   this.dialog = function(n, e) {
-    if(!this.win) return this.origDialog.call(d1, n, e);
     if(n.classList.contains(d1.opt.cAlert)) return this.alert(n, e);
     e.stopPropagation();
     if (n.form && !n.form.checkValidity()) return;
@@ -70,7 +73,6 @@ var main = new(function() {
   }
 
   this.showDialog = function(t, ask, enter, def, n) {
-    if(!this.win) return this.origShowDialog.call(d1, t, ask, enter, def, n);
     while (this.win.firstChild) this.win.removeChild(this.win.firstChild);
     this.seq++;
     if(location.hash == '#' + this.opt.idPrefix + this.seq) this.seq++;
@@ -118,13 +120,6 @@ var main = new(function() {
     return (location.hash == '#' + this.win.id);
   }
   
-  //keep original
-  this.origDialog = d1.dialog;
-  this.origShowDialog = d1.showDialog;
-  //override
-  d1.dialog = this.dialog.bind(this);
-  d1.showDialog = this.showDialog.bind(this);
-
 })();
 
   if(typeof module !== "undefined") module.exports = main;
