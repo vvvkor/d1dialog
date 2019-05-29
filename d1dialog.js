@@ -120,6 +120,8 @@ var main = new(function() {
     return (location.hash == '#' + this.win.id);
   }
   
+  d1.plug(this);
+
 })();
 
   if(typeof module !== "undefined") module.exports = main;
