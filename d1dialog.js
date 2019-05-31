@@ -9,6 +9,8 @@ var main = new(function() {
 
   "use strict";
   
+  this.name = 'dialog';
+  
   this.opt = {
     argConfirm: '_confirm',
     ccDialog: 'dlg pad c',
