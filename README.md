@@ -23,6 +23,7 @@ In your markup:
 * Add ``data-caption`` or ``title`` attribute to set text of dialog.
 * Add ``data-prompt`` attribute to specify URL argument for editing.
 * Add ``data-ok`` and ``data-cancel`` attributes to set custom button captions.
+* Add ``data-reverse`` attribute to reverse buttons order.
 * Add ``data-src`` attribute to specify selector of the input from which to take value for ``data-prompt``.  
 If that value is not empty then prompt is not shown.
 

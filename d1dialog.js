@@ -2,7 +2,7 @@
 /* Replacement of standard Javascript dialogs: alert, confirm, prompt */
 
 //a.alert([title]|[data-caption])
-//a.dialog[href]([title]|[data-caption])[data-prompt][data-src][data-ok][data-cancel]
+//a.dialog[href]([title]|[data-caption])[data-prompt][data-src][data-ok][data-cancel][data-reverse]
 if(typeof module !== "undefined") var d1 = require('d1css');
 (function(){
 var main = new(function() {
@@ -89,16 +89,19 @@ var main = new(function() {
     }
     var p3 = d1.ins('p', '', {}, this.win);
     var warn = (t.substr(0,1)==' ') ? 1 : (n ? (n.className.match(/-[we]\b/) || d1.q('.bg-e,.bg-w,.text-e,.text-w',0,n)) : '');
-    var ok = d1.ins('a', (n ? n.getAttribute('data-ok') : '') || d1.s('ok'), {href: this.opt.hashOk, className: 'btn pad ' + (warn ? 'bg-e' : 'bg-y')}, p3);
+    var reverse = n.getAttribute('data-reverse') || 0;
+    var cMain = 'btn pad ' + (warn ? 'bg-e' : 'bg-y');
+    var cSec = 'btn pad bg-n';
+    var ok = d1.ins('a', (n ? n.getAttribute('data-ok') : '') || d1.s('ok'), {href: this.opt.hashOk, className: reverse ? cSec : cMain}, p3);
     if (ask) {
-      d1.ins('', ' ', {}, p3);
-      d1.ins('a', (n ? n.getAttribute('data-cancel') : '') || d1.s('cancel'), {href: this.opt.hashCancel, className: 'btn pad bg-n'}, p3);
+      var no = d1.ins('a', (n ? n.getAttribute('data-cancel') : '') || d1.s('cancel'), {href: this.opt.hashCancel, className: reverse ? cMain : cSec}, ok, reverse ? -1 : 1);
+      d1.ins('', ' ', {}, no, reverse ? 1 : -1);
     }
     if(inp) inp.addEventListener('keypress', this.dialogConfirm.bind(this, n, inp, ask), false);
     ok.addEventListener('click', this.dialogConfirm.bind(this, n, inp, ask), false);
     location.hash = '#' + this.win.id;
     if(inp) inp.select();
-    else if(this.win.scrollHeight <= this.win.clientHeight) ok.focus();
+    else if(this.win.scrollHeight <= this.win.clientHeight) (reverse && no ? no : ok).focus();
   }
   
   this.dialogConfirm = function(n, inp, ask, e) {
