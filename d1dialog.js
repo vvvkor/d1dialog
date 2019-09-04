@@ -92,7 +92,7 @@ var main = new(function() {
     var ok = d1.ins('a', (n ? n.getAttribute('data-ok') : '') || d1.s('ok'), {href: this.opt.hashOk, className: 'btn pad ' + (warn ? 'bg-e' : 'bg-y')}, p3);
     if (ask) {
       d1.ins('', ' ', {}, p3);
-      d1.ins('a', d1.s('cancel'), {href: this.opt.hashCancel, className: 'btn pad bg-n'}, p3);
+      d1.ins('a', (n ? n.getAttribute('data-cancel') : '') || d1.s('cancel'), {href: this.opt.hashCancel, className: 'btn pad bg-n'}, p3);
     }
     if(inp) inp.addEventListener('keypress', this.dialogConfirm.bind(this, n, inp, ask), false);
     ok.addEventListener('click', this.dialogConfirm.bind(this, n, inp, ask), false);
