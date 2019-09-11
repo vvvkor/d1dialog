@@ -113,7 +113,10 @@ var main = new(function() {
         d1.esc();
         ask(inp ? inp.value : null);
       }
-      else n ? n.click() : d1.esc();
+      else{
+        if(n) n.click()
+        if(!n || n.target) d1.esc();
+      }
       //var evt = new MouseEvent('click');
       //n.dispatchEvent(evt);
       //location.hash = this.opt.hashOk;
