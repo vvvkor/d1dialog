@@ -1,6 +1,6 @@
 {
   "name": "d1dialog",
-  "version": "1.2.10",
+  "version": "1.2.11",
   "description": "Replacement of standard Javascript dialogs",
   "main": "d1dialog.js",
   "scripts": {

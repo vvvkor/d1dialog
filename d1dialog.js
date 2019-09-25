@@ -34,7 +34,7 @@ var main = new(function() {
     //override
     d1.dialog = this.dialog.bind(this);
     d1.showDialog = this.showDialog.bind(this);
-}
+  }
 
   this.dialog = function(n, e) {
     if(n.classList.contains(d1.opt.cAlert)) return this.alert(n, e);
@@ -89,7 +89,7 @@ var main = new(function() {
     }
     var p3 = d1.ins('p', '', {}, this.win);
     var warn = (t.substr(0,1)==' ') ? 1 : (n ? (n.className.match(/-[we]\b/) || d1.q('.bg-e,.bg-w,.text-e,.text-w',0,n)) : '');
-    var reverse = n.getAttribute('data-reverse') || 0;
+    var reverse = n ? n.getAttribute('data-reverse') : 0;
     var cMain = 'btn pad ' + (warn ? 'bg-e' : 'bg-y');
     var cSec = 'btn pad bg-n';
     var ok = d1.ins('a', (n ? n.getAttribute('data-ok') : '') || d1.s('ok'), {href: this.opt.hashOk, className: reverse ? cSec : cMain}, p3);
